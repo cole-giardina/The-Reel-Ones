@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <strong>Project Internal Portal</strong>
+    <div class="nav-links">
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/planner.html">Planner</a>
+      <a href="/reports.html">Reports</a>
+      <button id="logoutBtn">Log out</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Dashboard</h1>
+    <p class="notice">This is an internal page scaffold for planned features.</p>
+
+    <div class="panel-grid">
+      <section class="panel">
+        <h2>Protected Profile Data</h2>
+        <p>Loaded from <code>/api/protected/profile</code> with JWT token.</p>
+        <pre id="profileOutput">Loading...</pre>
+      </section>
+      <section class="panel">
+        <h2>User Listing (Protected)</h2>
+        <p>Loaded from <code>/api/protected/users</code>.</p>
+        <pre id="usersOutput">Loading...</pre>
+      </section>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script>
+    async function loadProtectedData() {
+      const token = requireTokenOrRedirect();
+      if (!token) return;
+
+      const profileOutput = document.getElementById('profileOutput');
+      const usersOutput = document.getElementById('usersOutput');
+
+      const [profileRes, usersRes] = await Promise.all([
+        fetch('/api/protected/profile', {
+          headers: { Authorization: `Bearer ${token}` }
+        }),
+        fetch('/api/protected/users', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+      ]);
+
+      const profileData = await profileRes.json();
+      const usersData = await usersRes.json();
+
+      if (!profileRes.ok || !usersRes.ok) {
+        profileOutput.textContent = 'Authorization failed. Redirecting to login.';
+        clearToken();
+        setTimeout(() => {
+          window.location.href = '/login.html';
+        }, 900);
+        return;
+      }
+
+      profileOutput.textContent = JSON.stringify(profileData, null, 2);
+      usersOutput.textContent = JSON.stringify(usersData, null, 2);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      requireTokenOrRedirect();
+      attachLogout();
+      loadProtectedData();
+    });
+  </script>
+</body>
+</html>

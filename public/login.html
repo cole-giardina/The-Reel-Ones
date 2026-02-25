@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log In</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>Team Portal Login</h1>
+      <p>Use your account to access internal planning pages.</p>
+      <form id="loginForm">
+        <input name="username" type="text" placeholder="Username" required />
+        <input name="password" type="password" placeholder="Password" required />
+        <button type="submit">Log In</button>
+      </form>
+      <p>Need an account? <a href="/register.html">Create one</a></p>
+      <p id="status"></p>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    const status = document.getElementById('status');
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = '';
+
+      const formData = new FormData(loginForm);
+      const payload = {
+        username: formData.get('username'),
+        password: formData.get('password')
+      };
+
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        status.textContent = data.error || 'Login failed.';
+        return;
+      }
+
+      saveToken(data.token);
+      window.location.href = '/dashboard.html';
+    });
+  </script>
+</body>
+</html>
