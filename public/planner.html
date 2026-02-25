@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feature Planner</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <strong>Project Internal Portal</strong>
+    <div class="nav-links">
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/planner.html">Planner</a>
+      <a href="/reports.html">Reports</a>
+      <button id="logoutBtn">Log out</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Planner</h1>
+    <p class="notice">Placeholder layout for backlog grooming and sprint item planning.</p>
+    <div class="row">
+      <section class="card">
+        <h2>Upcoming Features</h2>
+        <ul>
+          <li>Scene catalog management</li>
+          <li>User collaboration notes</li>
+          <li>Analytics dashboard widgets</li>
+        </ul>
+      </section>
+      <section class="card">
+        <h2>Milestones</h2>
+        <ul>
+          <li>Foundation complete</li>
+          <li>Core CRUD flows</li>
+          <li>Release candidate</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      requireTokenOrRedirect();
+      attachLogout();
+    });
+  </script>
+</body>
+</html>

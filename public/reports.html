@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reports</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="navbar">
+    <strong>Project Internal Portal</strong>
+    <div class="nav-links">
+      <a href="/dashboard.html">Dashboard</a>
+      <a href="/planner.html">Planner</a>
+      <a href="/reports.html">Reports</a>
+      <button id="logoutBtn">Log out</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Reports</h1>
+    <p class="notice">Placeholder layout for reporting and metrics pages.</p>
+    <div class="panel-grid">
+      <section class="panel"><h2>Usage Reports</h2><p>Future charts and exports.</p></section>
+      <section class="panel"><h2>Authentication Logs</h2><p>Future login audit trail.</p></section>
+      <section class="panel"><h2>Project KPIs</h2><p>Future performance summaries.</p></section>
+    </div>
+  </div>
+
+  <script src="/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      requireTokenOrRedirect();
+      attachLogout();
+    });
+  </script>
+</body>
+</html>
